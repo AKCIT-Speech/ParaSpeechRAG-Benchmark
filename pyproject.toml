@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "paraspeechrag"
+version = "0.1.0"
+description = "ParaSpeechRAG: a perturbation-robustness benchmark for speech retrieval, built around CLASP."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "torch",
+  "scipy",   # used directly by paraspeechrag.perturb.noise
+  "numpy",
+  "tqdm",
+  "scikit-learn",
+  "matplotlib",
+  "librosa",
+  "soundfile",
+  "transformers",
+]
+
+[project.optional-dependencies]
+realdata = [
+  "sentence-transformers",
+  "torchvision",
+  "Pillow",
+]
+voxpopuli = [
+  "datasets",
+  "sentence-transformers",
+  "torchvision",
+  "Pillow",
+]
+# GenVC voice conversion (scripts/perturb/voice_convert_genvc.py). Also needs a
+# GenVC checkout on sys.path — it is not a pip package. See configs/perturb/speaker.yaml.
+vc = [
+  "torchaudio",
+]
+[tool.hatch.build.targets.wheel]
+packages = ["src/paraspeechrag"]
+
+[tool.uv]
+package = true
+

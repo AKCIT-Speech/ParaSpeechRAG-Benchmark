@@ -1,0 +1,29 @@
+# NOTE: every input_dir/output_dir below is an ABSOLUTE path from the machine
+# this job originally ran on (/home/dollis/gen_vc/...). There are 3 input_dir
+# entries. Rewrite them for your host before running, e.g.:
+#   sed -i 's|/home/dollis/gen_vc|'"$PWD"'/data/datasets|g' configs/asr/transcribe_noise.yml
+# Kept verbatim rather than rewritten because the folder list is also a record
+# of which perturbation conditions were actually generated.
+model:
+  repo_id: nvidia/parakeet-tdt-0.6b-v2
+  device: cuda
+
+transcription:
+  batch_size: 32
+  recursive: false
+  output_dir: /home/dollis/gen_vc/transcriptions
+
+folders:
+
+  # --- NOISE ---
+  - name: noise_reverb
+    input_dir: /home/dollis/gen_vc/spokensquad_noise/reverb
+    output_csv: noise_reverb.csv
+
+  - name: noise_ambient
+    input_dir: /home/dollis/gen_vc/spokensquad_noise/ambient
+    output_csv: noise_ambient.csv
+
+  - name: noise_white
+    input_dir: /home/dollis/gen_vc/spokensquad_noise/white
+    output_csv: noise_white.csv
