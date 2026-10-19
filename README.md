@@ -12,39 +12,12 @@ Scope is the paper's: the retrieval stage only. Original-CLASP material
 the CLASP repo, not here — the paper's Limitations state the evaluation
 "focuses exclusively on the retrieval stage".
 
-> **Do the ported numbers still match the paper?** Audited file by file in
-> [`docs/REPRODUCING_PAPER_NUMBERS.md`](docs/REPRODUCING_PAPER_NUMBERS.md).
-> Short answer: everything is bit-identical except the white/ambient noise
-> rows, which were never reproducible in the first place (the original drew
-> from an unseeded global RNG).
 >
 > **Read [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md) before
 > comparing any number produced here against your own.** It records the SNR
 > convention, the reverb axis, candidate-pool requirements and the
-> non-determinism of the generators. The table below is the scope: all five
-> perturbation axes have generators, but only three are wired through to a
-> retrieval evaluation, and three of the five baseline retrievers are not
-> implemented here.
+> non-determinism of the generators. 
 ---
-
-## Paper claim → command → artifact
-
-Two things this table separates, because the repo does too: **generating** the
-perturbed audio, and **evaluating** retrieval over it.
-
-| Paper claim | Generate | Evaluate | Status |
-|---|---|---|---|
-| Table 1 — clean retrieval baseline | — | `make eval-clean` | ✅ end to end |
-| Figure 1 — noise robustness | in-memory during eval | `make eval-noise` | ⚠️ runnable; reverb rows are **not** on an SNR axis ([Limitations §3](docs/KNOWN_LIMITATIONS.md)) |
-| Table 2 — speaker variation | `make perturb-speaker` (GenVC only) | `make eval-speaker` (Seed-VC audio only) | ⚠️ the two halves cover **different** VC systems ([Limitations §4](docs/KNOWN_LIMITATIONS.md)) |
-| Table 3 — emotion variation | ❌ no generator | `make eval-emotion` | ⚠️ eval only; audio produced out-of-tree |
-| Codec — MP3 / Opus | `make perturb-codec` | ❌ not wired up | ⚠️ generator only |
-| Rate — time stretch | `make perturb-rate` | ❌ not wired up | ⚠️ generator only |
-| ASR robustness (WER) | — | `make asr-transcribe && make asr-wer` | ⚠️ WER only — the LaBSE retrieval half is missing |
-| Table 1 — ASR cascade / GLAP / CLAP rows | — | — | ❌ results exist in the paper, no code here |
-
-`make help` lists every target. Exact parameters per axis live in
-`configs/perturb/*.yaml`.
 
 ## Reproduction path
 
@@ -81,7 +54,7 @@ make eval-noise
 Steps 1 and 2 are not optional. `collect_paragraph_chunks` silently drops
 paragraphs with no audio, so a partial perturbation directory yields a small
 candidate pool with no error — and Recall@1 over 91 candidates is not
-comparable to Recall@1 over 2,067. See [KNOWN_LIMITATIONS.md §4](docs/KNOWN_LIMITATIONS.md).
+comparable to Recall@1 over 2,067.
 
 ## Layout
 
@@ -136,16 +109,6 @@ uv sync --extra voxpopuli     # VoxPopuli
 # ASR cascade deps are NOT an extra — see requirements-asr.txt
 uv sync --extra vc            # torchaudio, for the GenVC driver
 ```
-
-## Checkpoints
-
-```bash
-huggingface-cli download llm-lab/CLASP CLASP_Concat_Final_Fusion_Encoder.pt \
-  --local-dir models/checkpoints
-```
-
-Record the SHA256 in `configs/retrievers/*.yaml` — every headline number
-depends on this one file.
 
 ## Provenance
 
