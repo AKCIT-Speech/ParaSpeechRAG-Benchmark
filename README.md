@@ -128,17 +128,3 @@ terms, so the benchmark cannot ship as one permissively licensed blob. See
 identifiable-public-figure target voice, which needs a decision before the
 audio is frozen.
 
-## Citation
-
-```bibtex
-@inproceedings{10.1007/978-3-031-88717-8_2,
-  author    = {Abootorabi, Mohammad Mahdi and Asgari, Ehsaneddin},
-  title     = {CLASP: Contrastive Language-Speech Pretraining for Multilingual
-               Multimodal Information Retrieval},
-  year      = {2025},
-  publisher = {Springer-Verlag},
-  doi       = {10.1007/978-3-031-88717-8_2},
-  booktitle = {Advances in Information Retrieval: ECIR 2025, Lucca, Italy},
-  pages     = {10-20},
-}
-```

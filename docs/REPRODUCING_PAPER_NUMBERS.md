@@ -113,7 +113,7 @@ Two checks were added. Neither alters a number, but both can stop a run:
 1. **`build_spoken_squad_pkl.py` refuses `--train-wav-dir == --val-wav-dir`.**
    The original launchers did exactly this. To reproduce that behaviour, pass
    `--allow-shared-wav-dir`. Note this reproduces a genuine contamination bug
-   (docs/GAPS.md §3.3) — do it only to check what the old numbers were.
+   (docs/KNOWN_LIMITATIONS.md §3.3) — do it only to check what the old numbers were.
 2. **The launchers run `check_split_disjoint.py`.** It is advisory: it prints a
    warning and continues, never aborting the eval.
 
@@ -140,7 +140,7 @@ python scripts/build_spoken_squad_pkl.py \
 - [ ] Confirm the checkpoint SHA256 matches the one used for the paper —
       a different checkpoint moves every number and nothing here detects that
 - [ ] Confirm the candidate pool size matches (`n_candidates_in_pool` in the
-      `.meta.json` sidecar); see docs/GAPS.md §3.2
+      `.meta.json` sidecar); see docs/KNOWN_LIMITATIONS.md §3.2
 - [ ] Expect white/ambient noise rows to differ; expect everything else to match
 - [ ] Reverb rows should match exactly — if they do not, something other than
       this port changed
