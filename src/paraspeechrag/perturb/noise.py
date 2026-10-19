@@ -25,7 +25,7 @@ decay time, not an SNR. The evaluation driver
 as a decay-time knob via ``decay_time_ms = snr * 10``, so a row labelled
 "reverb @ 20 dB" is really "reverb with a 200 ms decay tail". Reverb rows
 therefore do **not** share an axis with the white/ambient rows. See
-``docs/GAPS.md``.
+``docs/KNOWN_LIMITATIONS.md``.
 
 **Determinism.** Every stochastic function takes an explicit
 ``rng: numpy.random.Generator``. Passing ``None`` creates a fresh unseeded

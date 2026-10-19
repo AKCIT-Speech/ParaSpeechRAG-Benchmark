@@ -154,7 +154,7 @@ def _apply_noise(
         # NOTE: reverb has no SNR. The --snr-levels value is reused here purely
         # as a strength knob: decay_time_ms = snr * 10. A row tagged
         # "reverb_20.0" is a 200 ms decay tail, NOT a 20 dB SNR, so reverb rows
-        # do not share an axis with white/ambient rows. See docs/GAPS.md.
+        # do not share an axis with white/ambient rows. See docs/KNOWN_LIMITATIONS.md.
         return add_reverberation(y, decay_time_ms=snr * 10)
     raise ValueError(f"unknown noise_type {noise_type!r}")
 

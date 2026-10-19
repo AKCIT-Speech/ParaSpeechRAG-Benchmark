@@ -4,7 +4,7 @@
 # applied at evaluation time by scripts/run_noise_robustness_eval.py, which
 # re-embeds the noisy waveform rather than writing perturbed audio to disk —
 # so unlike the speaker and emotion axes there is no released audio artifact
-# for the noise conditions. See docs/GAPS.md.
+# for the noise conditions. See docs/KNOWN_LIMITATIONS.md.
 #
 # This file documents the intended settings; the evaluation script still takes
 # its values from CLI flags. Keep the two in sync by hand until a config loader

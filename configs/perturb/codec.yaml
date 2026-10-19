@@ -43,5 +43,5 @@ libopus_version: TODO
 # feed the retriever at different rates. The retriever front-end
 # (paraspeechrag.inference.audio_preprocess) resamples everything to 16 kHz
 # mono regardless, so this is a difference in resampling history, not in the
-# rate the model sees. Worth stating explicitly in the paper — see docs/GAPS.md.
+# rate the model sees. Worth stating explicitly in the paper — see docs/KNOWN_LIMITATIONS.md.
 retriever_input_sample_rate: 16000

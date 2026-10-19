@@ -50,7 +50,7 @@ help:  ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	  | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 	@echo
-	@echo "Read docs/GAPS.md before trusting any number this produces."
+	@echo "Read docs/KNOWN_LIMITATIONS.md before trusting any number this produces."
 
 setup:  ## Install the package and base dependencies
 	uv sync --extra realdata
@@ -97,7 +97,7 @@ $(CLEAN_PKL):
 
 ## ------------------------------------------------------ generate audio ----
 ## These WRITE perturbed WAV trees. Nothing downstream consumes them yet —
-## see docs/GAPS.md section 1. Point --src_dir at the clean dev audio.
+## see docs/KNOWN_LIMITATIONS.md section 1. Point --src_dir at the clean dev audio.
 
 perturb-codec:  ## Generate MP3 + Opus round-trips at 8/16/32/64/128 kbps
 	$(PY) scripts/perturb/codec_mp3.py  --src_dir $(VAL_WAV) \
@@ -114,7 +114,8 @@ perturb-speaker:  ## Voice-convert with GenVC (needs a GenVC checkout + GPU)
 	    --src_dir $(VAL_WAV) --ref_dir $(DATA)/references \
 	    --output_dir $(DATA)/perturb/genvc --top_k 15
 	@echo "NOTE: GenVC's reference voice set differs from Seed-VC's."
-	@echo "      See docs/GAPS.md section 1.1 before averaging the two."
+	@echo "      Seed-VC and GenVC cover different voice sets - see"
+	@echo "      docs/KNOWN_LIMITATIONS.md section 4 before averaging the two."
 
 ## ---------------------------------------------------------------- asr ----
 
@@ -139,7 +140,7 @@ eval-noise: build-clean  ## Noise robustness (paper: Figure 1)
 	    --esc50-dir $(ESC50_DIR) --hits-k $(HITS_K) \
 	    --output-csv $(RESULTS)/noise/noise_$(POOLING).csv
 	@echo "NOTE: reverb rows use --snr-levels as a decay-time knob, NOT an SNR."
-	@echo "      See docs/GAPS.md section 3.1 before plotting a shared axis."
+	@echo "      See docs/KNOWN_LIMITATIONS.md section 3.1 before plotting a shared axis."
 
 eval-speaker:  ## Speaker variation, all target voices (paper: Table 2)
 	POOLING_MODE=$(POOLING) MODEL=$(MODEL) TRAIN_WAV_DIR=$(TRAIN_WAV) \

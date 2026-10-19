@@ -58,6 +58,6 @@ run:
                                      # in the perturbation benchmark itself".
   epochs_actually_run: TODO
   seed: TODO                         # scripts/train.py does not currently set
-                                     # a global seed — see docs/GAPS.md
+                                     # a global seed — see docs/KNOWN_LIMITATIONS.md
   output_checkpoint: TODO
   output_checkpoint_sha256: TODO

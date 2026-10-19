@@ -18,12 +18,13 @@ the CLASP repo, not here — the paper's Limitations state the evaluation
 > rows, which were never reproducible in the first place (the original drew
 > from an unseeded global RNG).
 >
-> **Read [`docs/GAPS.md`](docs/GAPS.md) first.** Four of the five perturbation
-> axes have generators here, but only two are wired through to a retrieval
-> evaluation; three of the five baseline retrievers are missing entirely. That
-> file is the honest inventory, and several findings in it change how the
-> existing numbers should be read.
-
+> **Read [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md) before
+> comparing any number produced here against your own.** It records the SNR
+> convention, the reverb axis, candidate-pool requirements and the
+> non-determinism of the generators. The table below is the scope: all five
+> perturbation axes have generators, but only three are wired through to a
+> retrieval evaluation, and three of the five baseline retrievers are not
+> implemented here.
 ---
 
 ## Paper claim → command → artifact
@@ -34,8 +35,8 @@ perturbed audio, and **evaluating** retrieval over it.
 | Paper claim | Generate | Evaluate | Status |
 |---|---|---|---|
 | Table 1 — clean retrieval baseline | — | `make eval-clean` | ✅ end to end |
-| Figure 1 — noise robustness | in-memory during eval | `make eval-noise` | ⚠️ runnable; reverb rows are **not** on an SNR axis ([GAPS §3.1](docs/GAPS.md)) |
-| Table 2 — speaker variation | `make perturb-speaker` (GenVC only) | `make eval-speaker` (Seed-VC audio only) | ⚠️ the two halves cover **different** VC systems ([GAPS §1](docs/GAPS.md)) |
+| Figure 1 — noise robustness | in-memory during eval | `make eval-noise` | ⚠️ runnable; reverb rows are **not** on an SNR axis ([Limitations §3](docs/KNOWN_LIMITATIONS.md)) |
+| Table 2 — speaker variation | `make perturb-speaker` (GenVC only) | `make eval-speaker` (Seed-VC audio only) | ⚠️ the two halves cover **different** VC systems ([Limitations §4](docs/KNOWN_LIMITATIONS.md)) |
 | Table 3 — emotion variation | ❌ no generator | `make eval-emotion` | ⚠️ eval only; audio produced out-of-tree |
 | Codec — MP3 / Opus | `make perturb-codec` | ❌ not wired up | ⚠️ generator only |
 | Rate — time stretch | `make perturb-rate` | ❌ not wired up | ⚠️ generator only |
@@ -80,7 +81,7 @@ make eval-noise
 Steps 1 and 2 are not optional. `collect_paragraph_chunks` silently drops
 paragraphs with no audio, so a partial perturbation directory yields a small
 candidate pool with no error — and Recall@1 over 91 candidates is not
-comparable to Recall@1 over 2,067. See [GAPS §3.2](docs/GAPS.md).
+comparable to Recall@1 over 2,067. See [KNOWN_LIMITATIONS.md §4](docs/KNOWN_LIMITATIONS.md).
 
 ## Layout
 
@@ -113,7 +114,7 @@ data/
   corpus/    frozen paragraph lists      splits/     paragraph ID lists
   manifests/ per-file checksums          datasets/   audio + built PKLs (gitignored)
 results/     per-condition metrics; legacy_* are carried over from the old repo
-docs/        GAPS, NAMING, DATA_LICENSES, REPRODUCING_PAPER_NUMBERS,
+docs/        KNOWN_LIMITATIONS, NAMING, DATA_LICENSES, REPRODUCING_PAPER_NUMBERS,
              TRAINING, EVAL, ROADMAP
 ```
 
@@ -145,6 +146,15 @@ huggingface-cli download llm-lab/CLASP CLASP_Concat_Final_Fusion_Encoder.pt \
 
 Record the SHA256 in `configs/retrievers/*.yaml` — every headline number
 depends on this one file.
+
+## Provenance
+
+Parts of this repository derive from the CLASP implementation
+(https://github.com/Sreyan88/CLASP — LLM Lab, QCRI/ALT), used under the MIT
+licence: the fusion encoder (`src/paraspeechrag/models/`), the embedding and
+preprocessing path (`src/paraspeechrag/inference/`), and the contrastive
+trainer (`src/paraspeechrag/train/`). The perturbation axes, evaluation
+harness, sanity checks and benchmark protocol are new work.
 
 ## Licences
 

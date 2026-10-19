@@ -27,7 +27,7 @@ build:
   pooling_mode: chunked
   # paragraph_id is "{split}:{article_idx}_{paragraph_idx}". The split prefix
   # keeps train and validation in separate ID namespaces — without it,
-  # paragraph grouping merges chunks across splits. See docs/GAPS.md.
+  # paragraph grouping merges chunks across splits. See docs/KNOWN_LIMITATIONS.md.
 
 eval:
   script: scripts/run_retrieval_eval.py

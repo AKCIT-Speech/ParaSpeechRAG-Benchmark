@@ -55,7 +55,7 @@ MAX_PARALLEL="${MAX_PARALLEL:-3}"
 
 # ALLOW_SHARED_WAV_DIR=1 reproduces the pre-fix behaviour: the perturbed audio
 # is passed as BOTH --train-wav-dir and --val-wav-dir. That is what produced the
-# existing numbers, and it is a genuine contamination bug (docs/GAPS.md 3.3).
+# existing numbers, and it is a genuine contamination bug (docs/KNOWN_LIMITATIONS.md section 8).
 # Use it only to check what the old numbers were.
 ALLOW_SHARED_WAV_DIR="${ALLOW_SHARED_WAV_DIR:-0}"
 SHARED_ARGS=()
@@ -77,7 +77,7 @@ Set TRAIN_WAV_DIR to the unperturbed Spoken-SQuAD train WAVs, e.g.:
     TRAIN_WAV_DIR=/path/to/train_wav bash $0
 
 Or, to reproduce the pre-fix behaviour exactly (perturbed audio as BOTH splits,
-which is what produced the existing numbers -- see docs/GAPS.md 3.3):
+which is what produced the existing numbers -- see docs/KNOWN_LIMITATIONS.md section 8):
     TRAIN_WAV_DIR=<the same perturbed dir> ALLOW_SHARED_WAV_DIR=1 bash $0"; exit 1; }
 
 echo "============================================================"
@@ -134,7 +134,7 @@ for COMBO in $COMBOS; do
         # must not block a run that is deliberately reproducing older numbers.
         echo "[${TAG}] Split check (advisory) ..."
         python scripts/sanity/check_split_disjoint.py "$PKL" \
-            || echo "[${TAG}] WARNING: split check FAILED — see docs/GAPS.md 3.3. Continuing."
+            || echo "[${TAG}] WARNING: split check FAILED — see docs/KNOWN_LIMITATIONS.md section 8. Continuing."
 
         echo "[${TAG}] Eval ..."
         SKIP_NOISE="$SKIP_NOISE" bash experiments/eval_spoken_squad.sh "$PKL" "$MODEL"

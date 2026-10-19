@@ -1,0 +1,135 @@
+# ---------------------------------------------------------------------------
+# ParaSpeechRAG
+#
+# The guiding rule: the repository holds CODE, CONFIGS and the small text
+# artifacts that pin the numbers down (frozen corpus lists, split ID lists,
+# SHA256 manifests). It does NOT hold audio, embeddings, PKLs or checkpoints —
+# those are released separately and referenced by checksum.
+#
+# Blanket extension rules come first as a safety net against `git add -A`,
+# with explicit negations below for the small files that must stay tracked.
+# ---------------------------------------------------------------------------
+
+# --- Audio, embeddings, checkpoints: never committed ------------------------
+*.wav
+*.flac
+*.mp3
+*.opus
+*.ogg
+*.m4a
+*.pkl
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.npy
+*.npz
+*.h5
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# --- Generated data trees ---------------------------------------------------
+# Audio sets and built PKLs (Makefile: DATA ?= $(ROOT)/data/datasets)
+data/datasets/
+# Downloaded noise corpora (Makefile: ESC50_DIR ?= $(ROOT)/data/noise_sources/esc50)
+data/noise_sources/
+# Parakeet transcription CSVs (scripts/asr/transcribe.py)
+transcriptions/
+
+# --- Keep the small text artifacts that pin the numbers down ----------------
+# These are the reproducibility anchors: regenerating them must be unnecessary.
+!data/corpus/
+!data/corpus/**
+!data/splits/
+!data/splits/**
+!data/manifests/
+!data/manifests/**
+!**/.gitkeep
+
+# --- Checkpoints: weights out, training curves in ---------------------------
+models/checkpoints/*
+!models/checkpoints/.gitkeep
+!models/checkpoints/*.png
+
+# --- Results: generated runs out, carried-over legacy CSVs in ---------------
+# `make clean-results` deletes generated results and keeps results/legacy_*.
+results/*
+!results/.gitkeep
+!results/legacy_*.csv
+
+# --- Figures ----------------------------------------------------------------
+# Regenerated from results/ by src/paraspeechrag/eval/retrieval_plots.py.
+# If you decide to commit the final paper figures, negate them explicitly
+# (e.g. `!figures/fig1_*.pdf`) rather than deleting this rule.
+figures/*
+!figures/.gitkeep
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+.Python
+
+# Virtual environments (uv.lock IS tracked — do not ignore it)
+.venv/
+venv/
+env/
+ENV/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Job / run output -------------------------------------------------------
+# experiments/*.sh launch long background sweeps; their logs are not artifacts.
+*.log
+nohup.out
+slurm-*.out
+wandb/
+lightning_logs/
+runs/
+outputs/
+
+# --- Secrets ----------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials.json
+token.json
+
+# --- OS / editor ------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -2,7 +2,7 @@
 
 Only the **noise** axis is implemented here. The speaker, emotion, codec and
 rate axes reported in the paper are *not* in this package — see
-``docs/GAPS.md`` for what exists, what was produced out-of-tree, and what has
+``docs/KNOWN_LIMITATIONS.md`` for what exists, what was produced out-of-tree, and what has
 no implementation at all.
 """
 
